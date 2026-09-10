@@ -1,0 +1,2 @@
+const API='http://localhost:5000/api';
+export async function api(path,options={}){const token=localStorage.getItem('token');const headers={'Content-Type':'application/json',...(options.headers||{})};if(token)headers.Authorization=`Bearer ${token}`;let r;try{r=await fetch(API+path,{...options,headers});}catch{throw new Error('Cannot connect to backend. Make sure it is running.');}const text=await r.text();let d={};try{d=text?JSON.parse(text):{};}catch{}if(!r.ok){throw new Error(d.message||`Request failed (${r.status})`);}return d;}
